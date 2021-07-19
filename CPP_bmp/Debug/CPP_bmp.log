@@ -1,4 +1,3 @@
-﻿  BMPFile.cpp
-  CPP_bmp.cpp
-  Generating Code...
+﻿  CPP_bmp.cpp
+D:\Desktop\CPP_bmp\CPP_bmp\BMPFile.h(161,56): warning C4018: '>': signed/unsigned mismatch
   CPP_bmp.vcxproj -> D:\Desktop\CPP_bmp\Debug\CPP_bmp.exe

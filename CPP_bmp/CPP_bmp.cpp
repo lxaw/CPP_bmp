@@ -20,7 +20,8 @@ A BMP file can be divided into 4 regions.
 
 int main()
 {
-	BMPFile bmp0("Test.bmp");
-	BMPFile bmp1(200, 200, false);
+	BMPFile bmp(800, 600);
+	bmp.fillRegion(0, 0, 800, 600, 255, 0, 255, 255);
+	bmp.write("purple.bmp");
 }
 

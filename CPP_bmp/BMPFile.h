@@ -1,6 +1,7 @@
 /*
 Written (with love) by Lex Whalen
 */
+#pragma once
 
 #include "BMPColorHeader.h"
 #include "BMPFileHeader.h"
@@ -13,7 +14,6 @@ Written (with love) by Lex Whalen
 #include <fstream>
 
 
-#pragma once
 struct BMPFile
 {
 	BMPFileHeader _file_header;
@@ -22,11 +22,11 @@ struct BMPFile
 
 	std::vector<uint8_t> _data;
 
-	BMPFile(std::string fileName) {
-
+	BMPFile(const char* fileName) {
+		read(fileName);
 	}
 
-	void read(std::string fileName) {
+	void read(const char* fileName) {
 		std::ifstream inp{ fileName,std::ios_base::binary };
 		if (inp) {
 			inp.read((char*)& _file_header, sizeof(_file_header));
@@ -68,10 +68,11 @@ struct BMPFile
 			}
 
 			_data.resize(_info_header._width * _info_header._height * _info_header._bit_count / 8);
+
 			// See if need to deal with row padding
 			if (_info_header._width % 4 == 0) {
 				inp.read((char*)_data.data(), _data.size());
-				_file_header._file_size += _data.size();
+				_file_header._file_size += static_cast<uint32_t>(_data.size());
 			}
 			else {
 				_row_stride = _info_header._width * _info_header._bit_count / 8;
@@ -124,7 +125,76 @@ struct BMPFile
 	}
 	
 	void write(const std::string fileName) {
+		std::ofstream of{ fileName, std::ios_base::binary };
+		if (of) {
+			if (_info_header._bit_count == 32) {
+				writeHeadersAndData(of);
+			}
+			else if (_info_header._bit_count == 24) {
+				if (_info_header._width % 4 == 0) {
+					writeHeadersAndData(of);
+				}
+				else {
+					// Need to get a new stride
+					uint32_t new_stride = makeStrideAligned(4);
+					std::vector<uint8_t> padding_row(new_stride - _row_stride);
 
+					writeHeaders(of);
+
+					for (int y = 0;y < _info_header._height;++y) {
+						of.write((const char*)(_data.data() + _row_stride * y), _row_stride);
+						of.write((const char*)padding_row.data(), padding_row.size());
+					}
+				}
+			}
+			else {
+				throw std::runtime_error("Error: Unsupported bit per pixel. Need 24 or 32.");
+			}
+		}
+		else {
+			throw std::runtime_error("Error: Cannot open output image file.");
+		}
+	}
+
+	void fillRegion(uint32_t x0, uint32_t y0, uint32_t w, uint32_t h, uint8_t B, uint8_t G, uint8_t R, uint8_t A) {
+		// Fills a region with color
+		if (x0 + w > (uint32_t)_info_header._width || y0 + h > _info_header._height) {
+			// To large
+			throw std::runtime_error("Error: Region to fill is larger than the image itself.");
+		}
+		else {
+			uint32_t chans = _info_header._bit_count / 8;
+			for (uint32_t y = y0;y < y0 + h; ++y) {
+				// Note the use of y here
+				for (uint32_t x = x0; x < x0 + w; ++x) {
+					_data[chans * (y * _info_header._width + x) + 0] = B;
+					_data[chans * (y * _info_header._width + x) + 1] = G;
+					_data[chans * (y * _info_header._width + x) + 2] = R;
+
+					if (chans == 4) {
+						_data[chans * (y * _info_header._width + x) + 3] = A;
+					}
+				}
+			}
+		}
+	}
+	
+	void setPixel(uint32_t x0, uint32_t y0, uint8_t B, uint8_t G, uint8_t R, uint8_t A) {
+		if (x0 >= (uint32_t)_info_header._width || y0 >= (uint32_t)_info_header._height || x0 < 0 || y0 < 0) {
+			// Dimension issue
+			throw std::runtime_error("Error: Point to set is outside of the image itself.");
+		}
+		else {
+			// Note the use of y0 here
+			uint32_t chans = _info_header._bit_count / 8;
+			_data[chans * (y0 * _info_header._width + x0) + 0] = B;
+			_data[chans * (y0 * _info_header._width + x0) + 1] = G;
+			_data[chans * (y0 * _info_header._width + x0) + 2] = R;
+			
+			if (chans == 4) {
+				_data[chans * (y0 * _info_header._width + x0) + 3] = A;
+			}
+		}
 	}
 private:
 	uint32_t _row_stride{ 0 };

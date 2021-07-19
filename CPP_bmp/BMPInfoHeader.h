@@ -1,10 +1,11 @@
 /*
 Written (with love) by Lex Whalen
 */
+#pragma once
 
 #include <stdint.h>
 
-#pragma once
+#pragma pack(push,1)
 struct BMPInfoHeader
 {
 	// The size of the header in bytes
@@ -14,7 +15,7 @@ struct BMPInfoHeader
 	// The height of the bitmap in pix
 	int32_t _height{ 0 };
 	// The number of planes for the device, here 1
-	uint16_t _planes{ 1 };
+	uint16_t planes{ 1 };
 	// The number of bits per pix
 	uint16_t _bit_count{ 0 };
 	// 0 or 3, for now we only use uncompressed
@@ -31,4 +32,4 @@ struct BMPInfoHeader
 	// If 0 all colors needed
 	uint32_t _colors_important{ 0 };
 };
-
+#pragma pack(pop)

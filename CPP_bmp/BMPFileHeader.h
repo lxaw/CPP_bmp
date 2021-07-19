@@ -6,6 +6,7 @@ Written (with love) by Lex Whalen
 #include <stdint.h>
 
 
+#pragma pack(push,1)
 /*
 BMP files need these 5 elements in their file header.
 Info on file type, size, and location of pix data.
@@ -24,4 +25,4 @@ struct BMPFileHeader
 	// Essentially the bytes from beginning of file
 	uint32_t _offset_data{ 0 };
 };
-
+#pragma pack(pop)

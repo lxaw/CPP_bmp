@@ -2,14 +2,17 @@
 Written (with love) by Lex Whalen
 */
 
+#pragma once
+
 #include <stdint.h>
 
-#pragma once
 
 /*
 Color masks init'ed to BGRA format, only used for imgs w/
 transparency (32 bit depth here)
 */
+#pragma pack(push,1)
+
 struct BMPColorHeader
 {
 	// The bit mask for red chan
@@ -25,4 +28,4 @@ struct BMPColorHeader
 	// The unused data for sRGB color space
 	uint32_t _unused[16]{ 0 };
 };
-
+#pragma pack(pop)
