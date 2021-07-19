@@ -1,0 +1,1 @@
+#include "BMPInfoHeader.h"
