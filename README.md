@@ -1,4 +1,4 @@
-# CPP CMP
+# CPP BMP
 
 ## Make images with raw C++.
 
