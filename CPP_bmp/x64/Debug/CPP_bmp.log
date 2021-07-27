@@ -1,0 +1,8 @@
+﻿  CPP_bmp.cpp
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(44,1): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(95,56): warning C4018: '>': signed/unsigned mismatch
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(194,25): warning C4018: '<': signed/unsigned mismatch
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(196,27): warning C4018: '<': signed/unsigned mismatch
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(251,25): warning C4018: '<': signed/unsigned mismatch
+D:\Desktop\PROJECTS\CPP_bmp\CPP_bmp\BMPFile.h(257,27): warning C4018: '<': signed/unsigned mismatch
+  CPP_bmp.vcxproj -> D:\Desktop\PROJECTS\CPP_bmp\x64\Debug\CPP_bmp.exe

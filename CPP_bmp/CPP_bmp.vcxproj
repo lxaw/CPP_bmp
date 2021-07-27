@@ -139,10 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BMPColorHeader.cpp" />
-    <ClCompile Include="BMPFile.cpp" />
-    <ClCompile Include="BMPFileHeader.cpp" />
-    <ClCompile Include="BMPInfoHeader.cpp" />
     <ClCompile Include="CPP_bmp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +146,7 @@
     <ClInclude Include="BMPFile.h" />
     <ClInclude Include="BMPFileHeader.h" />
     <ClInclude Include="BMPInfoHeader.h" />
+    <ClInclude Include="BGRAColor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
